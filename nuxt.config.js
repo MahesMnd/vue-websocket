@@ -51,7 +51,8 @@ module.exports = {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -59,7 +60,28 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
-
+  auth: {
+    // redirect: {
+    // login: '/login',
+    // logout: '/',
+    // callback: '/login',
+    // home: '/'
+    // },
+    // strategies: {
+    // local: {
+    //   endpoints: {
+    //     login: { url: '/api/auth/login', method: 'post', propertyName: 'token' },
+    //     logout: { url: '/api/auth/logout', method: 'post' },
+    //     user: { url: '/api/auth/user', method: 'get', propertyName: 'user' }
+    //   },
+    //   // tokenRequired: true,
+    //   // tokenType: 'bearer',
+    // },
+    localStorage: false
+  },
+  // router: {
+  //   middleware: ['auth']
+  // },
   /*
   ** Build configuration
   */

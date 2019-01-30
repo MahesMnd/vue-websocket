@@ -5,7 +5,9 @@ export const state = () => ({
     isConnected: false,
     message: '',
     reconnectError: false,
-  }
+    isAuthenticated: false,
+  },
+  token: ''
 })
 
 export const mutations = {
@@ -13,6 +15,9 @@ export const mutations = {
     console.log('socket onopen')
     Vue.prototype.$socket = event.currentTarget
     state.socket.isConnected = true
+    if (state.socket.isAuthenticated === false && state.token === 'auth') {
+      this.dispatch('sendMessage', 'auth')
+    }
   },
   SOCKET_ONCLOSE (state, event)  {
     console.log('socket onclose')
@@ -27,10 +32,15 @@ export const mutations = {
     console.log('socket onmessage: ', message.data)
     state.socket.message = message.data
     if (message.data) this.commit('socketMessage/setMessage', message.data)
+    if (message.data === 'auth') {
+      state.socket.isAuthenticated = true
+      state.token = 'auth'
+    }
   },
   // mutations for reconnect methods
   SOCKET_RECONNECT(state, count) {
     console.log('socket reconnect: ')
+    state.socket.isAuthenticated = false
     console.info(state, count)
   },
   SOCKET_RECONNECT_ERROR(state) {
@@ -42,9 +52,19 @@ export const mutations = {
 export const getters = {
 
 }
-
+let cookieParser = require('cookieparser')
 export const actions = {
   sendMessage: function(context, message) {
     Vue.prototype.$socket.send(message)
+  },
+  nuxtServerInit ({ commit }, { req }) {
+    let authToken = null
+    if (req.headers.cookie) {
+      console.log(req.headers.cookie)
+      let parsed = cookieParser.parse(req.headers.cookie)
+      authToken = parsed['auth.strategy']
+    }
+    console.log(authToken)
+    // commit('updateAuthToken', authToken)
   }
 }
