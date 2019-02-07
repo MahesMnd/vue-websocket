@@ -1,7 +1,9 @@
+require('dotenv').config()
 const pkg = require('./package')
 
 
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const { axiosConfig } = require('./config/axios')
 
 module.exports = {
   mode: 'universal',
@@ -43,6 +45,9 @@ module.exports = {
   */
   plugins: [
     '@/plugins/vuetify',
+    '@/plugins/repository',
+    '@/plugins/axios',
+    '@/plugins/client',
     { src: '~plugins/vueWebsocket.js', ssr: false }
   ],
 
@@ -51,7 +56,7 @@ module.exports = {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    ['@nuxtjs/axios', axiosConfig],
     '@nuxtjs/auth'
   ],
   /*
@@ -59,6 +64,8 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    // Set the baseURL to JSONPlaceholder API
+    // baseURL: 'https://jsonplaceholder.typicode.com/'
   },
   auth: {
     // redirect: {

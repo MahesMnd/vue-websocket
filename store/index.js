@@ -36,6 +36,13 @@ export const mutations = {
       state.socket.isAuthenticated = true
       state.token = 'auth'
     }
+    if (message.data === 'play') {
+      let sound = 'http://freesound.org/data/previews/415/415193_91193-lq.mp3'
+      if(sound) {
+        let audio = new Audio(sound);
+        audio.play()
+      }
+    }
   },
   // mutations for reconnect methods
   SOCKET_RECONNECT(state, count) {

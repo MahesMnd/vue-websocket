@@ -4,6 +4,9 @@
       <v-text-field type="text" label="get the text back from socket" v-model="message"></v-text-field>
       <v-btn @click="sendEcho">Send Message</v-btn>
       </v-flex>
+      <v-btn
+        @click.prevent="playSound('http://soundbible.com/mp3/Air Plane Ding-SoundBible.com-496729130.mp3')"
+      >Play</v-btn>
     <v-flex>
       <ul>
         <li v-for="(msg, index) in getMessage">
@@ -27,6 +30,12 @@
         sendEcho () {
           this.sendMessage(this.message || 'I am awesome')
           this.message = ''
+        },
+        playSound (sound) {
+          if(sound) {
+            let audio = new Audio(sound);
+            audio.play()
+          }
         }
       },
       computed: {
