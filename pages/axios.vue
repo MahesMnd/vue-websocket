@@ -46,6 +46,7 @@ export default {
         userId: 1
       })
       console.log('-----------', result)
+      throw error('this is my error')
       // Fix ids to be unique
       this.posts.push({ ...result, id: Number(this.posts.slice(-1)[0].id) + 1 })
     }
